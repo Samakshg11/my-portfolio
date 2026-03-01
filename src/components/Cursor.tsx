@@ -9,20 +9,27 @@ const Cursor = () => {
     const cursor = cursorRef.current!;
     const mousePos = { x: 0, y: 0 };
     const cursorPos = { x: 0, y: 0 };
-    document.addEventListener("mousemove", (e) => {
-      mousePos.x = e.clientX;
-      mousePos.y = e.clientY;
-    });
-    requestAnimationFrame(function loop() {
+    let animationId: number;
+
+    document.addEventListener(
+      "mousemove",
+      (e) => {
+        mousePos.x = e.clientX;
+        mousePos.y = e.clientY;
+      },
+      { passive: true }
+    );
+
+    animationId = requestAnimationFrame(function loop() {
       if (!hover) {
         const delay = 6;
         cursorPos.x += (mousePos.x - cursorPos.x) / delay;
         cursorPos.y += (mousePos.y - cursorPos.y) / delay;
-        gsap.to(cursor, { x: cursorPos.x, y: cursorPos.y, duration: 0.1 });
-        // cursor.style.transform = `translate(${cursorPos.x}px, ${cursorPos.y}px)`;
+        cursor.style.transform = `translate3d(${cursorPos.x}px, ${cursorPos.y}px, 0)`;
       }
-      requestAnimationFrame(loop);
+      animationId = requestAnimationFrame(loop);
     });
+
     document.querySelectorAll("[data-cursor]").forEach((item) => {
       const element = item as HTMLElement;
       element.addEventListener("mouseover", (e: MouseEvent) => {
@@ -31,9 +38,7 @@ const Cursor = () => {
 
         if (element.dataset.cursor === "icons") {
           cursor.classList.add("cursor-icons");
-
-          gsap.to(cursor, { x: rect.left, y: rect.top, duration: 0.1 });
-          //   cursor.style.transform = `translate(${rect.left}px,${rect.top}px)`;
+          cursor.style.transform = `translate3d(${rect.left}px, ${rect.top}px, 0)`;
           cursor.style.setProperty("--cursorH", `${rect.height}px`);
           hover = true;
         }
@@ -46,6 +51,10 @@ const Cursor = () => {
         hover = false;
       });
     });
+
+    return () => {
+      cancelAnimationFrame(animationId);
+    };
   }, []);
 
   return <div className="cursor-main" ref={cursorRef}></div>;

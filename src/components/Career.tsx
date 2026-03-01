@@ -5,7 +5,7 @@ const Career = () => {
     <div className="career-section section-container">
       <div className="career-container">
         <h2>
-          My career <span>&</span>
+          My journey <span>&</span>
           <br /> experience
         </h2>
         <div className="career-info">
@@ -15,43 +15,43 @@ const Career = () => {
           <div className="career-info-box">
             <div className="career-info-in">
               <div className="career-role">
-                <h4>Full Stack Developer</h4>
-                <h5>Ikshan</h5>
+                <h4>Started Learning Web Development</h4>
+                <h5>Self Taught</h5>
               </div>
-              <h3>2020</h3>
+              <h3>2023</h3>
             </div>
             <p>
-              Built 6+ complete applications using React.js. Integrated backend
-              authentication using Node.js & MongoDB. Created responsive UI/UX
-              and designed wireframes using Figma.
+              Began learning HTML, CSS & JavaScript. Built initial
+              projects to understand frontend fundamentals and responsive
+              design principles.
             </p>
           </div>
           <div className="career-info-box">
             <div className="career-info-in">
               <div className="career-role">
-                <h4>Senior Full Stack Developer</h4>
-                <h5>Monocept (Max Life Insurance)</h5>
+                <h4>Full Stack Development</h4>
+                <h5>Personal Projects</h5>
               </div>
-              <h3>2021</h3>
+              <h3>2024</h3>
             </div>
             <p>
-              Led two development teams on Mpro, a large-scale insurance
-              operations platform. Developed multiple modules using React.js &
-              migrated critical functionalities to Node.js microservices.
+              Learned React.js, Node.js & MongoDB. Built multiple
+              full-stack applications including authentication systems,
+              REST APIs, and database-driven apps.
             </p>
           </div>
           <div className="career-info-box">
             <div className="career-info-in">
               <div className="career-role">
-                <h4>Full Stack Developer</h4>
-                <h5>Logic Loop</h5>
+                <h4>Advanced Projects & 3D Web</h4>
+                <h5>Portfolio & Open Source</h5>
               </div>
               <h3>NOW</h3>
             </div>
             <p>
-              Building Solid, a proprietary low-code platform using Angular,
-              Next.js & NestJS. Delivering production-ready CMS-based projects
-              including e-commerce, CRM, and import-export automation systems.
+              Building production-ready projects using Next.js, Three.js
+              & TypeScript. Exploring 3D web experiences, animations with
+              GSAP, and physics-based interactions.
             </p>
           </div>
         </div>

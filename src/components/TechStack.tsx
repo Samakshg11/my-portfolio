@@ -28,6 +28,7 @@ const sphereGeometry = new THREE.SphereGeometry(1, 28, 28);
 
 const spheres = [...Array(30)].map(() => ({
   scale: [0.7, 1, 0.8, 1, 1][Math.floor(Math.random() * 5)],
+  materialIndex: Math.floor(Math.random() * imageUrls.length),
 }));
 
 type SphereProps = {
@@ -37,6 +38,8 @@ type SphereProps = {
   material: THREE.MeshPhysicalMaterial;
   isActive: boolean;
 };
+
+const _impulseVec = new THREE.Vector3();
 
 function SphereGeo({
   vec = new THREE.Vector3(),
@@ -50,16 +53,15 @@ function SphereGeo({
   useFrame((_state, delta) => {
     if (!isActive) return;
     delta = Math.min(0.1, delta);
+    _impulseVec.set(
+      -50 * delta * scale,
+      -150 * delta * scale,
+      -50 * delta * scale
+    );
     const impulse = vec
       .copy(api.current!.translation())
       .normalize()
-      .multiply(
-        new THREE.Vector3(
-          -50 * delta * scale,
-          -150 * delta * scale,
-          -50 * delta * scale
-        )
-      );
+      .multiply(_impulseVec);
 
     api.current?.applyImpulse(impulse, true);
   });
@@ -128,29 +130,29 @@ const TechStack = () => {
   const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
+    let ticking = false;
+
     const handleScroll = () => {
-      const scrollY = window.scrollY || document.documentElement.scrollTop;
-      const threshold = document
-        .getElementById("work")!
-        .getBoundingClientRect().top;
-      setIsActive(scrollY > threshold);
-    };
-    document.querySelectorAll(".header a").forEach((elem) => {
-      const element = elem as HTMLAnchorElement;
-      element.addEventListener("click", () => {
-        const interval = setInterval(() => {
-          handleScroll();
-        }, 10);
-        setTimeout(() => {
-          clearInterval(interval);
-        }, 1000);
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const workEl = document.getElementById("work");
+        if (!workEl) {
+          ticking = false;
+          return;
+        }
+        const threshold = workEl.getBoundingClientRect().top;
+        setIsActive(threshold < 0);
+        ticking = false;
       });
-    });
-    window.addEventListener("scroll", handleScroll);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
   const materials = useMemo(() => {
     return textures.map(
       (texture) =>
@@ -166,16 +168,31 @@ const TechStack = () => {
     );
   }, []);
 
+  const sphereData = useMemo(() => {
+    return spheres.map((props) => ({
+      ...props,
+      material: materials[props.materialIndex % materials.length],
+    }));
+  }, [materials]);
+
   return (
     <div className="techstack">
       <h2> My Techstack</h2>
 
       <Canvas
         shadows
-        gl={{ alpha: true, stencil: false, depth: false, antialias: false }}
+        gl={{
+          alpha: true,
+          stencil: false,
+          depth: false,
+          antialias: false,
+          powerPreference: "high-performance",
+        }}
+        dpr={[1, 1.5]}
         camera={{ position: [0, 0, 20], fov: 32.5, near: 1, far: 100 }}
         onCreated={(state) => (state.gl.toneMappingExposure = 1.5)}
         className="tech-canvas"
+        frameloop={isActive ? "always" : "never"}
       >
         <ambientLight intensity={1} />
         <spotLight
@@ -187,13 +204,13 @@ const TechStack = () => {
           shadow-mapSize={[512, 512]}
         />
         <directionalLight position={[0, 5, -4]} intensity={2} />
-        <Physics gravity={[0, 0, 0]}>
+        <Physics gravity={[0, 0, 0]} paused={!isActive}>
           <Pointer isActive={isActive} />
-          {spheres.map((props, i) => (
+          {sphereData.map((props, i) => (
             <SphereGeo
               key={i}
-              {...props}
-              material={materials[Math.floor(Math.random() * materials.length)]}
+              scale={props.scale}
+              material={props.material}
               isActive={isActive}
             />
           ))}
