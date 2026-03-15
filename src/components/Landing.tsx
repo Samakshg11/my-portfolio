@@ -1,7 +1,29 @@
-import { PropsWithChildren } from "react";
+import { MouseEvent, PropsWithChildren, useCallback } from "react";
 import "./styles/Landing.css";
 
 const Landing = ({ children }: PropsWithChildren) => {
+  const handleDownloadCV = useCallback(async (e: MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("/Samaksh_Garg_CV.pdf");
+      if (!response.ok) {
+        window.open("/Samaksh_Garg_CV.pdf", "_blank", "noopener,noreferrer");
+        return;
+      }
+      const blob = await response.blob();
+      const blobUrl = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.download = "Samaksh_Garg_CV.pdf";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(blobUrl);
+    } catch {
+      window.open("/Samaksh_Garg_CV.pdf", "_blank", "noopener,noreferrer");
+    }
+  }, []);
+
   return (
     <>
       <div className="landing-section" id="landingDiv">
@@ -23,6 +45,15 @@ const Landing = ({ children }: PropsWithChildren) => {
               <div className="landing-h2-info">Engineer</div>
               <div className="landing-h2-info-1">Developer</div>
             </h2>
+            <a
+              href="/Samaksh_Garg_CV.pdf"
+              download="Samaksh_Garg_CV.pdf"
+              className="landing-cv-btn"
+              data-cursor="disable"
+              onClick={handleDownloadCV}
+            >
+              Download CV
+            </a>
           </div>
         </div>
         {children}
