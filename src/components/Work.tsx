@@ -8,31 +8,31 @@ const projects = [
     title: "VitalHealth",
     category: "Real-Time Health Monitoring System",
     tools: "Update with your tech stack",
-    image: "/images/placeholder.webp",
+    image: "/images/vitalwatch.png",
   },
   {
     title: "QuickFix",
     category: "Real-Time Mechanic Finder",
     tools: "Update with your tech stack",
-    image: "/images/placeholder.webp",
+    image: "/images/quickfix.png",
   },
   {
     title: "YouTube Clone",
     category: "Video Streaming App",
     tools: "Update with your tech stack",
-    image: "/images/placeholder.webp",
+    image: "/images/youtube.png",
   },
   {
     title: "TaskFlow",
     category: "Smarter Task Management",
     tools: "Update with your tech stack",
-    image: "/images/placeholder.webp",
+    image: "/images/taskflow.png",
   },
   {
     title: "DevTinder",
     category: "Ongoing Project",
     tools: "Update with your tech stack",
-    image: "/images/placeholder.webp",
+    image: "/images/devtinder.png",
   },
 ];
 
