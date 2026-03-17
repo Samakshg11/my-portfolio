@@ -49,9 +49,10 @@ const Career = () => {
               <h3>NOW</h3>
             </div>
             <p>
-              Building production-ready projects using Next.js, Three.js
-              & TypeScript. Exploring 3D web experiences, animations with
-              GSAP, and physics-based interactions.
+              Building production-ready projects using React.js, Three.js
+              & TypeScript, including VitalHealth and DevTinder. Exploring
+              3D web experiences, animations with GSAP, and physics-based
+              interactions.
             </p>
           </div>
         </div>
