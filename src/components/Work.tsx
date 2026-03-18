@@ -1,38 +1,51 @@
 import { useState, useCallback } from "react";
 import "./styles/Work.css";
 import WorkImage from "./WorkImage";
-import { MdArrowBack, MdArrowForward } from "react-icons/md";
+import { MdArrowBack, MdArrowForward, MdArrowOutward } from "react-icons/md";
 
-const projects = [
+type Project = {
+  title: string;
+  category: string;
+  tools: string;
+  image: string;
+  liveUrl?: string;
+};
+
+const projects: Project[] = [
   {
     title: "VitalHealth",
     category: "Real-Time Health Monitoring System",
     tools: "Update with your tech stack",
     image: "/images/vitalwatch.png",
+    liveUrl: "",
   },
   {
     title: "QuickFix",
     category: "Real-Time Mechanic Finder",
     tools: "Update with your tech stack",
     image: "/images/quickfix.png",
+    liveUrl: "",
   },
   {
     title: "YouTube Clone",
     category: "Video Streaming App",
     tools: "Update with your tech stack",
     image: "/images/youtube.png",
+    liveUrl: "",
   },
   {
     title: "TaskFlow",
     category: "Smarter Task Management",
     tools: "Update with your tech stack",
     image: "/images/taskflow.png",
+    liveUrl: "",
   },
   {
     title: "DevTinder",
     category: "Ongoing Project",
     tools: "Update with your tech stack",
     image: "/images/devtinder.png",
+    liveUrl: "",
   },
 ];
 
@@ -112,10 +125,25 @@ const Work = () => {
                           <span className="tools-label">Tools & Features</span>
                           <p>{project.tools}</p>
                         </div>
+                        {project.liveUrl ? (
+                          <a
+                            className="project-live-link"
+                            href={project.liveUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            data-cursor="disable"
+                          >
+                            Live Demo <MdArrowOutward />
+                          </a>
+                        ) : null}
                       </div>
                     </div>
                     <div className="carousel-image-wrapper">
-                      <WorkImage image={project.image} alt={project.title} />
+                      <WorkImage
+                        image={project.image}
+                        alt={project.title}
+                        link={project.liveUrl}
+                      />
                     </div>
                   </div>
                 </div>
