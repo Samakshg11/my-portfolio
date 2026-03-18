@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import "./styles/Work.css";
 import WorkImage from "./WorkImage";
 import { MdArrowBack, MdArrowForward } from "react-icons/md";
@@ -38,16 +38,32 @@ const projects = [
 
 const Work = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(false);
+  const animationLockRef = useRef(false);
+  const unlockTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const touchStartXRef = useRef<number | null>(null);
+  const touchCurrentXRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (unlockTimerRef.current) {
+        clearTimeout(unlockTimerRef.current);
+      }
+    };
+  }, []);
 
   const goToSlide = useCallback(
     (index: number) => {
-      if (isAnimating) return;
-      setIsAnimating(true);
+      if (animationLockRef.current || index === currentIndex) return;
+      animationLockRef.current = true;
       setCurrentIndex(index);
-      setTimeout(() => setIsAnimating(false), 500);
+      if (unlockTimerRef.current) {
+        clearTimeout(unlockTimerRef.current);
+      }
+      unlockTimerRef.current = setTimeout(() => {
+        animationLockRef.current = false;
+      }, 380);
     },
-    [isAnimating]
+    [currentIndex]
   );
 
   const goToPrev = useCallback(() => {
@@ -61,6 +77,42 @@ const Work = () => {
       currentIndex === projects.length - 1 ? 0 : currentIndex + 1;
     goToSlide(newIndex);
   }, [currentIndex, goToSlide]);
+
+  const handleTouchStart = useCallback(
+    (event: React.TouchEvent<HTMLDivElement>) => {
+      const startX = event.changedTouches[0]?.clientX;
+      touchStartXRef.current = startX ?? null;
+      touchCurrentXRef.current = startX ?? null;
+    },
+    []
+  );
+
+  const handleTouchMove = useCallback(
+    (event: React.TouchEvent<HTMLDivElement>) => {
+      touchCurrentXRef.current = event.changedTouches[0]?.clientX ?? null;
+    },
+    []
+  );
+
+  const handleTouchEnd = useCallback(() => {
+    if (touchStartXRef.current === null || touchCurrentXRef.current === null) {
+      return;
+    }
+
+    const swipeDistance = touchStartXRef.current - touchCurrentXRef.current;
+    const swipeThreshold = 45;
+
+    if (Math.abs(swipeDistance) > swipeThreshold) {
+      if (swipeDistance > 0) {
+        goToNext();
+      } else {
+        goToPrev();
+      }
+    }
+
+    touchStartXRef.current = null;
+    touchCurrentXRef.current = null;
+  }, [goToNext, goToPrev]);
 
   return (
     <div className="work-section" id="work">
@@ -89,11 +141,16 @@ const Work = () => {
           </button>
 
           {/* Slides */}
-          <div className="carousel-track-container">
+          <div
+            className="carousel-track-container"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
             <div
               className="carousel-track"
               style={{
-                transform: `translateX(-${currentIndex * 100}%)`,
+                transform: `translate3d(-${currentIndex * 100}%, 0, 0)`,
               }}
             >
               {projects.map((project, index) => (
