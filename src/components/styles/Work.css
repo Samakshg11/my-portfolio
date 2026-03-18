@@ -32,12 +32,14 @@
   width: 100%;
   border-top: 1px solid #363636;
   border-bottom: 1px solid #363636;
+  touch-action: pan-y;
 }
 
 .carousel-track {
   display: flex;
   transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform;
+  transform: translateZ(0);
 }
 
 .carousel-slide {
@@ -45,6 +47,7 @@
   flex-shrink: 0;
   box-sizing: border-box;
   padding: 50px 0;
+  backface-visibility: hidden;
 }
 
 .carousel-content {
@@ -231,6 +234,7 @@
   max-width: 100%;
   max-height: 400px;
   border-radius: 8px;
+  will-change: transform;
 }
 
 /* ── Responsive ── */
