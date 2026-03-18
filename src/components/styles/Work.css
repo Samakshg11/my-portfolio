@@ -28,22 +28,26 @@
 }
 
 .carousel-track-container {
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
   width: 100%;
   border-top: 1px solid #363636;
   border-bottom: 1px solid #363636;
-  touch-action: pan-y;
+  touch-action: pan-x pinch-zoom;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.carousel-track-container::-webkit-scrollbar {
+  display: none;
 }
 
 .carousel-track {
   display: flex;
-  transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
   will-change: transform;
   transform: translateZ(0);
-}
-
-.carousel-track-dragging {
-  transition: none;
 }
 
 .carousel-slide {
@@ -52,6 +56,8 @@
   box-sizing: border-box;
   padding: 50px 0;
   backface-visibility: hidden;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
 }
 
 .carousel-content {

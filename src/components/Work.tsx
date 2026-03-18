@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useState, useCallback, useRef } from "react";
 import "./styles/Work.css";
 import WorkImage from "./WorkImage";
 import { MdArrowBack, MdArrowForward } from "react-icons/md";
@@ -38,55 +38,25 @@ const projects = [
 
 const Work = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isDragging, setIsDragging] = useState(false);
-  const animationLockRef = useRef(false);
-  const unlockTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const swipeRafRef = useRef<number | null>(null);
-  const swipeOffsetRef = useRef(0);
-  const trackRef = useRef<HTMLDivElement | null>(null);
   const trackContainerRef = useRef<HTMLDivElement | null>(null);
-  const touchStartXRef = useRef<number | null>(null);
-  const touchCurrentXRef = useRef<number | null>(null);
-
-  const setSwipeOffset = useCallback((offset: number) => {
-    swipeOffsetRef.current = offset;
-
-    if (swipeRafRef.current !== null) return;
-
-    swipeRafRef.current = requestAnimationFrame(() => {
-      if (trackRef.current) {
-        trackRef.current.style.setProperty("--drag-offset-px", `${swipeOffsetRef.current}px`);
-      }
-      swipeRafRef.current = null;
-    });
-  }, []);
-
-  useEffect(() => {
-    return () => {
-      if (unlockTimerRef.current) {
-        clearTimeout(unlockTimerRef.current);
-      }
-
-      if (swipeRafRef.current !== null) {
-        cancelAnimationFrame(swipeRafRef.current);
-      }
-    };
-  }, []);
+  const scrollRafRef = useRef<number | null>(null);
 
   const goToSlide = useCallback(
     (index: number) => {
-      if (animationLockRef.current || index === currentIndex) return;
-      animationLockRef.current = true;
-      setSwipeOffset(0);
+      if (index === currentIndex) return;
+
       setCurrentIndex(index);
-      if (unlockTimerRef.current) {
-        clearTimeout(unlockTimerRef.current);
-      }
-      unlockTimerRef.current = setTimeout(() => {
-        animationLockRef.current = false;
-      }, 420);
+
+      const container = trackContainerRef.current;
+      if (!container) return;
+
+      const slideWidth = container.clientWidth;
+      container.scrollTo({
+        left: slideWidth * index,
+        behavior: "smooth",
+      });
     },
-    [currentIndex, setSwipeOffset]
+    [currentIndex]
   );
 
   const goToPrev = useCallback(() => {
@@ -101,69 +71,28 @@ const Work = () => {
     goToSlide(newIndex);
   }, [currentIndex, goToSlide]);
 
-  const handleTouchStart = useCallback(
-    (event: React.TouchEvent<HTMLDivElement>) => {
-      if (animationLockRef.current) return;
+  const handleScroll = useCallback(() => {
+    const container = trackContainerRef.current;
+    if (!container) return;
 
-      const startX = event.touches[0]?.clientX;
-      touchStartXRef.current = startX ?? null;
-      touchCurrentXRef.current = startX ?? null;
-      setIsDragging(true);
-      setSwipeOffset(0);
-    },
-    [setSwipeOffset]
-  );
+    if (scrollRafRef.current !== null) return;
 
-  const handleTouchMove = useCallback(
-    (event: React.TouchEvent<HTMLDivElement>) => {
-      if (!isDragging || touchStartXRef.current === null) return;
+    scrollRafRef.current = requestAnimationFrame(() => {
+      const slideWidth = container.clientWidth;
+      if (slideWidth > 0) {
+        const snappedIndex = Math.round(container.scrollLeft / slideWidth);
+        const normalizedIndex = Math.min(
+          Math.max(snappedIndex, 0),
+          projects.length - 1
+        );
 
-      const currentX = event.touches[0]?.clientX;
-      if (currentX === undefined) return;
-
-      touchCurrentXRef.current = currentX;
-      const swipeDelta = currentX - touchStartXRef.current;
-      setSwipeOffset(swipeDelta);
-
-      if (Math.abs(swipeDelta) > 6) {
-        event.preventDefault();
+        setCurrentIndex((prev) =>
+          prev === normalizedIndex ? prev : normalizedIndex
+        );
       }
-    },
-    [isDragging, setSwipeOffset]
-  );
-
-  const handleTouchEnd = useCallback(() => {
-    setIsDragging(false);
-
-    if (touchStartXRef.current === null || touchCurrentXRef.current === null) {
-      setSwipeOffset(0);
-      return;
-    }
-
-    const swipeDistance = touchStartXRef.current - touchCurrentXRef.current;
-    const containerWidth = trackContainerRef.current?.offsetWidth ?? 0;
-    const swipeThreshold = Math.max(45, containerWidth * 0.15);
-
-    setSwipeOffset(0);
-
-    if (Math.abs(swipeDistance) > swipeThreshold) {
-      if (swipeDistance > 0) {
-        goToNext();
-      } else {
-        goToPrev();
-      }
-    }
-
-    touchStartXRef.current = null;
-    touchCurrentXRef.current = null;
-  }, [goToNext, goToPrev, setSwipeOffset]);
-
-  const handleTouchCancel = useCallback(() => {
-    setIsDragging(false);
-    setSwipeOffset(0);
-    touchStartXRef.current = null;
-    touchCurrentXRef.current = null;
-  }, [setSwipeOffset]);
+      scrollRafRef.current = null;
+    });
+  }, []);
 
   return (
     <div className="work-section" id="work">
@@ -195,18 +124,9 @@ const Work = () => {
           <div
             className="carousel-track-container"
             ref={trackContainerRef}
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
-            onTouchCancel={handleTouchCancel}
+            onScroll={handleScroll}
           >
-            <div
-              className={`carousel-track ${isDragging ? "carousel-track-dragging" : ""}`}
-              ref={trackRef}
-              style={{
-                transform: `translate3d(calc(-${currentIndex * 100}% + var(--drag-offset-px, 0px)), 0, 0)`,
-              }}
-            >
+            <div className="carousel-track">
               {projects.map((project, index) => (
                 <div className="carousel-slide" key={index}>
                   <div className="carousel-content">
