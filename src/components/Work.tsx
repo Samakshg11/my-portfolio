@@ -38,15 +38,37 @@ const projects = [
 
 const Work = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
   const animationLockRef = useRef(false);
   const unlockTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const swipeRafRef = useRef<number | null>(null);
+  const swipeOffsetRef = useRef(0);
+  const trackRef = useRef<HTMLDivElement | null>(null);
+  const trackContainerRef = useRef<HTMLDivElement | null>(null);
   const touchStartXRef = useRef<number | null>(null);
   const touchCurrentXRef = useRef<number | null>(null);
+
+  const setSwipeOffset = useCallback((offset: number) => {
+    swipeOffsetRef.current = offset;
+
+    if (swipeRafRef.current !== null) return;
+
+    swipeRafRef.current = requestAnimationFrame(() => {
+      if (trackRef.current) {
+        trackRef.current.style.setProperty("--drag-offset-px", `${swipeOffsetRef.current}px`);
+      }
+      swipeRafRef.current = null;
+    });
+  }, []);
 
   useEffect(() => {
     return () => {
       if (unlockTimerRef.current) {
         clearTimeout(unlockTimerRef.current);
+      }
+
+      if (swipeRafRef.current !== null) {
+        cancelAnimationFrame(swipeRafRef.current);
       }
     };
   }, []);
@@ -55,15 +77,16 @@ const Work = () => {
     (index: number) => {
       if (animationLockRef.current || index === currentIndex) return;
       animationLockRef.current = true;
+      setSwipeOffset(0);
       setCurrentIndex(index);
       if (unlockTimerRef.current) {
         clearTimeout(unlockTimerRef.current);
       }
       unlockTimerRef.current = setTimeout(() => {
         animationLockRef.current = false;
-      }, 380);
+      }, 420);
     },
-    [currentIndex]
+    [currentIndex, setSwipeOffset]
   );
 
   const goToPrev = useCallback(() => {
@@ -80,27 +103,48 @@ const Work = () => {
 
   const handleTouchStart = useCallback(
     (event: React.TouchEvent<HTMLDivElement>) => {
-      const startX = event.changedTouches[0]?.clientX;
+      if (animationLockRef.current) return;
+
+      const startX = event.touches[0]?.clientX;
       touchStartXRef.current = startX ?? null;
       touchCurrentXRef.current = startX ?? null;
+      setIsDragging(true);
+      setSwipeOffset(0);
     },
-    []
+    [setSwipeOffset]
   );
 
   const handleTouchMove = useCallback(
     (event: React.TouchEvent<HTMLDivElement>) => {
-      touchCurrentXRef.current = event.changedTouches[0]?.clientX ?? null;
+      if (!isDragging || touchStartXRef.current === null) return;
+
+      const currentX = event.touches[0]?.clientX;
+      if (currentX === undefined) return;
+
+      touchCurrentXRef.current = currentX;
+      const swipeDelta = currentX - touchStartXRef.current;
+      setSwipeOffset(swipeDelta);
+
+      if (Math.abs(swipeDelta) > 6) {
+        event.preventDefault();
+      }
     },
-    []
+    [isDragging, setSwipeOffset]
   );
 
   const handleTouchEnd = useCallback(() => {
+    setIsDragging(false);
+
     if (touchStartXRef.current === null || touchCurrentXRef.current === null) {
+      setSwipeOffset(0);
       return;
     }
 
     const swipeDistance = touchStartXRef.current - touchCurrentXRef.current;
-    const swipeThreshold = 45;
+    const containerWidth = trackContainerRef.current?.offsetWidth ?? 0;
+    const swipeThreshold = Math.max(45, containerWidth * 0.15);
+
+    setSwipeOffset(0);
 
     if (Math.abs(swipeDistance) > swipeThreshold) {
       if (swipeDistance > 0) {
@@ -112,7 +156,14 @@ const Work = () => {
 
     touchStartXRef.current = null;
     touchCurrentXRef.current = null;
-  }, [goToNext, goToPrev]);
+  }, [goToNext, goToPrev, setSwipeOffset]);
+
+  const handleTouchCancel = useCallback(() => {
+    setIsDragging(false);
+    setSwipeOffset(0);
+    touchStartXRef.current = null;
+    touchCurrentXRef.current = null;
+  }, [setSwipeOffset]);
 
   return (
     <div className="work-section" id="work">
@@ -143,14 +194,17 @@ const Work = () => {
           {/* Slides */}
           <div
             className="carousel-track-container"
+            ref={trackContainerRef}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
+            onTouchCancel={handleTouchCancel}
           >
             <div
-              className="carousel-track"
+              className={`carousel-track ${isDragging ? "carousel-track-dragging" : ""}`}
+              ref={trackRef}
               style={{
-                transform: `translate3d(-${currentIndex * 100}%, 0, 0)`,
+                transform: `translate3d(calc(-${currentIndex * 100}% + var(--drag-offset-px, 0px)), 0, 0)`,
               }}
             >
               {projects.map((project, index) => (
