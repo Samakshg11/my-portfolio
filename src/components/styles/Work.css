@@ -107,25 +107,6 @@
   font-size: 15px;
 }
 
-.project-live-link {
-  margin-top: 16px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  color: var(--accentColor);
-  border: 1px solid rgba(94, 234, 212, 0.45);
-  border-radius: 999px;
-  padding: 8px 14px;
-  font-size: 14px;
-  transition: all 0.25s ease;
-}
-
-.project-live-link:hover {
-  color: #051513;
-  background-color: var(--accentColor);
-  box-shadow: 0 0 14px rgba(94, 234, 212, 0.35);
-}
-
 .carousel-image-wrapper {
   flex: 1;
   display: flex;
