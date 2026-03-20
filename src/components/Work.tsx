@@ -17,6 +17,7 @@ const projects = [
     category: "Real-Time Mechanic Finder",
     tools: "Update with your tech stack",
     image: "/images/quickfix.png",
+    githubLink: "https://github.com/Samakshg11/quickfix-client",
   },
   {
     title: "YouTube Clone",
