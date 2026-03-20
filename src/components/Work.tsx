@@ -7,7 +7,7 @@ const projects = [
   {
     title: "VitalHealth",
     category: "Real-Time Health Monitoring System",
-    tools: "Update with your tech stack",
+    tools: "MongoDB, Express.js, React, Node.js, Socket.IO, REST APIs",
     image: "/images/vitalwatch.png",
     link: "https://health-monitor-p8jz.onrender.com",
     githubLink: "https://github.com/Samakshg11/health-monitor",
@@ -15,14 +15,14 @@ const projects = [
   {
     title: "QuickFix",
     category: "Real-Time Mechanic Finder",
-    tools: "Update with your tech stack",
+    tools: "MongoDB, Express.js, React, Node.js, Socket.IO, JWT Auth",
     image: "/images/quickfix.png",
     githubLink: "https://github.com/Samakshg11/quickfix-client",
   },
   {
     title: "YouTube Clone",
     category: "Video Streaming App",
-    tools: "Update with your tech stack",
+    tools: "MongoDB, Express.js, React, Node.js, JWT Auth, REST APIs",
     image: "/images/youtube.png",
     link: "https://youtube-clone-459hed950-ssmaksh-gargs-projects.vercel.app",
     githubLink: "https://github.com/Samakshg11/youtube-clone",
@@ -30,13 +30,14 @@ const projects = [
   {
     title: "TaskFlow",
     category: "Smarter Task Management",
-    tools: "Update with your tech stack",
+    tools: "PHP, MySQL, JavaScript, HTML, CSS, Bootstrap",
     image: "/images/taskflow.png",
+    githubLink: "https://github.com/Samakshg11/taskflow",
   },
   {
     title: "DevTinder",
     category: "Ongoing Project",
-    tools: "Update with your tech stack",
+    tools: "MongoDB, Express.js, React, Node.js, JWT Auth, REST APIs",
     image: "/images/devtinder.png",
     githubLink: "https://github.com/Samakshg11/DevTinder-web",
   },
@@ -146,7 +147,7 @@ const Work = () => {
                           {project.category}
                         </p>
                         <div className="carousel-tools">
-                          <span className="tools-label">Tools & Features</span>
+                          <span className="tools-label">Tech Stack</span>
                           <p>{project.tools}</p>
                         </div>
                       </div>
