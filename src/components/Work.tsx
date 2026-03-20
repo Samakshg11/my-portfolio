@@ -9,6 +9,7 @@ const projects = [
     category: "Real-Time Health Monitoring System",
     tools: "Update with your tech stack",
     image: "/images/vitalwatch.png",
+    link: "https://health-monitor-p8jz.onrender.com",
   },
   {
     title: "QuickFix",
@@ -21,6 +22,7 @@ const projects = [
     category: "Video Streaming App",
     tools: "Update with your tech stack",
     image: "/images/youtube.png",
+    link: "https://youtube-clone-459hed950-ssmaksh-gargs-projects.vercel.app",
   },
   {
     title: "TaskFlow",
@@ -146,7 +148,11 @@ const Work = () => {
                       </div>
                     </div>
                     <div className="carousel-image-wrapper">
-                      <WorkImage image={project.image} alt={project.title} />
+                      <WorkImage
+                        image={project.image}
+                        alt={project.title}
+                        link={project.link}
+                      />
                     </div>
                   </div>
                 </div>
