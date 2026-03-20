@@ -37,6 +37,7 @@ const projects = [
     category: "Ongoing Project",
     tools: "Update with your tech stack",
     image: "/images/devtinder.png",
+    githubLink: "https://github.com/Samakshg11/DevTinder-web",
   },
 ];
 
