@@ -10,6 +10,7 @@ const projects = [
     tools: "Update with your tech stack",
     image: "/images/vitalwatch.png",
     link: "https://health-monitor-p8jz.onrender.com",
+    githubLink: "https://github.com/Samakshg11/health-monitor",
   },
   {
     title: "QuickFix",
