@@ -23,6 +23,7 @@ const projects = [
     tools: "Update with your tech stack",
     image: "/images/youtube.png",
     link: "https://youtube-clone-459hed950-ssmaksh-gargs-projects.vercel.app",
+    githubLink: "https://github.com/Samakshg11/youtube-clone",
   },
   {
     title: "TaskFlow",
@@ -152,6 +153,7 @@ const Work = () => {
                         image={project.image}
                         alt={project.title}
                         link={project.link}
+                        githubLink={project.githubLink}
                       />
                     </div>
                   </div>

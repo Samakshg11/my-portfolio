@@ -1,4 +1,5 @@
 import { memo, useEffect, useRef, useState } from "react";
+import { FaGithub } from "react-icons/fa";
 import { MdArrowOutward } from "react-icons/md";
 
 interface Props {
@@ -6,6 +7,7 @@ interface Props {
   alt?: string;
   video?: string;
   link?: string;
+  githubLink?: string;
 }
 
 const WorkImage = (props: Props) => {
@@ -42,23 +44,70 @@ const WorkImage = (props: Props) => {
 
   return (
     <div className="work-image">
-      <a
+      <div
         className="work-image-in"
-        href={props.link}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={() => setIsVideo(false)}
-        target="_blank"
-        rel="noopener noreferrer"
-        data-cursor={"disable"}
       >
-        {props.link && (
-          <div className="work-link">
-            <MdArrowOutward />
+        {props.link ? (
+          <a
+            className="work-image-link"
+            href={props.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-cursor="disable"
+          >
+            <img
+              src={props.image}
+              alt={props.alt}
+              loading="lazy"
+              decoding="async"
+            />
+            {isVideo && (
+              <video src={video} autoPlay muted playsInline loop></video>
+            )}
+          </a>
+        ) : (
+          <>
+            <img
+              src={props.image}
+              alt={props.alt}
+              loading="lazy"
+              decoding="async"
+            />
+            {isVideo && <video src={video} autoPlay muted playsInline loop></video>}
+          </>
+        )}
+
+        {(props.link || props.githubLink) && (
+          <div className="work-links">
+            {props.githubLink && (
+              <a
+                className="work-link"
+                href={props.githubLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="View GitHub repository"
+                data-cursor="disable"
+              >
+                <FaGithub />
+              </a>
+            )}
+            {props.link && (
+              <a
+                className="work-link"
+                href={props.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Open live project"
+                data-cursor="disable"
+              >
+                <MdArrowOutward />
+              </a>
+            )}
           </div>
         )}
-        <img src={props.image} alt={props.alt} loading="lazy" decoding="async" />
-        {isVideo && <video src={video} autoPlay muted playsInline loop></video>}
-      </a>
+      </div>
     </div>
   );
 };
