@@ -28,9 +28,9 @@ const WhatIDo = () => {
     <div className="whatIDO">
       <div className="what-box">
         <h2 className="what-title">
-          W<span className="hat-h2">HAT</span> I
+          <span className="hat-h2">WHAT</span> 
           <br />
-          <span className="do-h2 do-next-line">DO</span>
+          <span className="do-h2 do-next-line">I DO</span>
         </h2>
       </div>
       <div className="what-box">
