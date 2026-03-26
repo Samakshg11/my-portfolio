@@ -49,7 +49,7 @@ const Landing = ({ children }: PropsWithChildren) => {
               href="/SamakshlatestCV1.pdf"
               download="SamakshlatestCV1.pdf"
               className="landing-cv-btn"
-              data-cursor="disable"
+              data-cursor="enable"
               onClick={handleDownloadCV}
             >
               Download CV
