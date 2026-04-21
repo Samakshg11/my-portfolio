@@ -46,7 +46,7 @@ const Landing = ({ children }: PropsWithChildren) => {
             </h2>
             <h2>
               <div className="landing-h2-info">Engineer</div>
-              <div className="landing-h2-info-1">Developer</div>
+              <div className="landing-h2-info-1">Developers</div>
             </h2>
             <a
               href={CV_FILE_PATH}
