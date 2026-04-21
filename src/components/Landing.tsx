@@ -17,7 +17,7 @@ const Landing = ({ children }: PropsWithChildren) => {
       const blobUrl = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = blobUrl;
-      link.download = "SamakshlatestCV1.pdf";
+      link.download = CV_DOWNLOAD_NAME;
       document.body.appendChild(link);
       link.click();
       link.remove();
