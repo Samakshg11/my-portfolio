@@ -22,7 +22,7 @@ const Landing = ({ children }: PropsWithChildren) => {
       link.remove();
       URL.revokeObjectURL(blobUrl);
     } catch {
-      window.open("/SamakshlatestCV1.pdf", "_blank", "noopener,noreferrer");
+      window.open(CV_FILE_PATH, "_blank", "noopener,noreferrer");
     }
   }, []);
 
