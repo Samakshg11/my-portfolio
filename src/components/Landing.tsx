@@ -7,7 +7,7 @@ const Landing = ({ children }: PropsWithChildren) => {
   const handleDownloadCV = useCallback(async (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     try {
-      const response = await fetch("/SamakshlatestCV1.pdf");
+      const response = await fetch(CV_FILE_PATH);
       if (!response.ok) {
         window.open("/SamakshlatestCV1.pdf", "_blank", "noopener,noreferrer");
         return;
