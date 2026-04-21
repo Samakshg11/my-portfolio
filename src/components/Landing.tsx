@@ -9,7 +9,7 @@ const Landing = ({ children }: PropsWithChildren) => {
     try {
       const response = await fetch(CV_FILE_PATH);
       if (!response.ok) {
-        window.open("/SamakshlatestCV1.pdf", "_blank", "noopener,noreferrer");
+        window.open(CV_FILE_PATH, "_blank", "noopener,noreferrer");
         return;
       }
       const blob = await response.blob();
