@@ -2,6 +2,7 @@ import { type MouseEvent, type PropsWithChildren, useCallback } from "react";
 import "./styles/Landing.css";
 
 const CV_FILE_PATH = "/SamakshlatestCV1.pdf";
+const CV_DOWNLOAD_NAME = "SamakshlatestCV1.pdf";
 
 const Landing = ({ children }: PropsWithChildren) => {
   const handleDownloadCV = useCallback(async (e: MouseEvent<HTMLAnchorElement>) => {
