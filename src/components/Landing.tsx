@@ -49,7 +49,7 @@ const Landing = ({ children }: PropsWithChildren) => {
               <div className="landing-h2-info-1">Developer</div>
             </h2>
             <a
-              href="/SamakshlatestCV1.pdf"
+              href={CV_FILE_PATH}
               download="SamakshlatestCV1.pdf"
               className="landing-cv-btn"
               data-cursor="enable"
