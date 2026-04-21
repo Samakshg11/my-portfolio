@@ -1,4 +1,4 @@
-import { MouseEvent, PropsWithChildren, useCallback } from "react";
+import { type MouseEvent, type PropsWithChildren, useCallback } from "react";
 import "./styles/Landing.css";
 
 const Landing = ({ children }: PropsWithChildren) => {
