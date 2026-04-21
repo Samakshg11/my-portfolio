@@ -50,7 +50,7 @@ const Landing = ({ children }: PropsWithChildren) => {
             </h2>
             <a
               href={CV_FILE_PATH}
-              download="SamakshlatestCV1.pdf"
+              download={CV_DOWNLOAD_NAME}
               className="landing-cv-btn"
               data-cursor="enable"
               onClick={handleDownloadCV}
