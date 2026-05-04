@@ -5,19 +5,34 @@ import { MdArrowBack, MdArrowForward } from "react-icons/md";
 
 const projects = [
   {
-    title: "VitalHealth",
+    title: "Vital",
     category: "Real-Time Health Monitoring System",
     tools: "MongoDB, Express.js, React, Node.js, Socket.IO, REST APIs",
     image: "/images/vitalwatch.png",
     link: "https://health-monitor-p8jz.onrender.com",
     githubLink: "https://github.com/Samakshg11/health-monitor",
+    description:
+      "Tracks live health metrics with instant socket updates and clean monitoring dashboards.",
+  },
+  {
+    title: "DevTinder",
+    category: "Developer Networking Platform",
+    tools: "MongoDB, Express.js, React, Node.js, JWT Auth, REST APIs",
+    image: "/images/devtinder.png",
+    link: "https://devtinder.site",
+    githubLink: "https://github.com/Samakshg11/DevTinder-web",
+    description:
+      "Connects developers by skills and interests with smooth profile discovery and matching flows.",
   },
   {
     title: "QuickFix",
     category: "Real-Time Mechanic Finder",
     tools: "MongoDB, Express.js, React, Node.js, Socket.IO, JWT Auth",
     image: "/images/quickfix.png",
+    link: "https://quickfix-client.onrender.com",
     githubLink: "https://github.com/Samakshg11/quickfix-client",
+    description:
+      "Helps users quickly find nearby mechanics, request support, and get updates in real time.",
   },
   {
     title: "YouTube Clone",
@@ -26,6 +41,8 @@ const projects = [
     image: "/images/youtube.png",
     link: "https://youtube-clone-459hed950-ssmaksh-gargs-projects.vercel.app",
     githubLink: "https://github.com/Samakshg11/youtube-clone",
+    description:
+      "A full-stack streaming experience with auth, upload flows, and dynamic feed interactions.",
   },
   {
     title: "TaskFlow",
@@ -33,13 +50,8 @@ const projects = [
     tools: "PHP, MySQL, JavaScript, HTML, CSS, Bootstrap",
     image: "/images/taskflow.png",
     githubLink: "https://github.com/Samakshg11/taskflow",
-  },
-  {
-    title: "DevTinder",
-    category: "Ongoing Project",
-    tools: "MongoDB, Express.js, React, Node.js, JWT Auth, REST APIs",
-    image: "/images/devtinder.png",
-    githubLink: "https://github.com/Samakshg11/DevTinder-web",
+    description:
+      "Organizes personal and team workflows with simple task tracking and productivity-focused UX.",
   },
 ];
 
@@ -145,6 +157,9 @@ const Work = () => {
                         <h4>{project.title}</h4>
                         <p className="carousel-category">
                           {project.category}
+                        </p>
+                        <p className="carousel-description">
+                          {project.description}
                         </p>
                         <div className="carousel-tools">
                           <span className="tools-label">Tech Stack</span>
