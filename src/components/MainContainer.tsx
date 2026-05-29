@@ -12,22 +12,31 @@ import setSplitText from "./utils/splitText";
 
 const TechStack = lazy(() => import("./TechStack"));
 
+const getIsDesktopView = () => {
+  if (typeof window === "undefined") {
+    return false;
+  }
+
+  return window.innerWidth > 1024;
+};
+
 const MainContainer = ({ children }: PropsWithChildren) => {
-  const [isDesktopView, setIsDesktopView] = useState<boolean>(
-    window.innerWidth > 1024
-  );
+  const [isDesktopView, setIsDesktopView] = useState<boolean>(getIsDesktopView);
 
   useEffect(() => {
     let resizeTimer: ReturnType<typeof setTimeout>;
+
     const resizeHandler = () => {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(() => {
         setSplitText();
-        setIsDesktopView(window.innerWidth > 1024);
+        setIsDesktopView(getIsDesktopView());
       }, 150);
     };
+
     setSplitText();
     window.addEventListener("resize", resizeHandler, { passive: true });
+
     return () => {
       clearTimeout(resizeTimer);
       window.removeEventListener("resize", resizeHandler);
@@ -49,7 +58,7 @@ const MainContainer = ({ children }: PropsWithChildren) => {
             <Career />
             <Work />
             {isDesktopView && (
-              <Suspense fallback={<div>Loading....</div>}>
+              <Suspense fallback={<div className="section-container">Loading tech stack...</div>}>
                 <TechStack />
               </Suspense>
             )}
