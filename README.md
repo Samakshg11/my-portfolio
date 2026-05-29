@@ -1,15 +1,41 @@
-# My Portfolio Wesbite - Overview 🚀
+# My Portfolio Website
 
-This repository contains the open source version of my porfolio website.
-Do check it out!
+This repository contains the source code for my personal portfolio website.
 
-## Instructions 🛠️
+![Portfolio Preview](public/images/preview.png)
 
-I have modified the gsap club plugins with the trial plugins, but with the trial plugin you cannot host it🔴. So for Club plugins, Check out here: https://gsap.com/docs/v3/Installation/
+## Tech Stack
 
-**Techstack** - React, TypeScript, GSAP, ThreeJS, WebGL, HTML, Css, JavaScript
+- React
+- TypeScript
+- Vite
+- GSAP
+- Three.js
+- WebGL
 
-![Portfolio-Preview](public/images/preview.png)
+## Local Development
+
+1. Install dependencies:
+```bash
+npm install
+```
+2. Start the development server:
+```bash
+npm run dev
+```
+3. Build for production:
+```bash
+npm run build
+```
+4. Preview the production build:
+```bash
+npm run preview
+```
+
+## Notes on GSAP Plugins
+
+This project currently uses trial/plugin setup choices for animation tooling. For production hosting with Club GSAP plugins, refer to the official installation guide:
+https://gsap.com/docs/v3/Installation/
 
 ## License
 
