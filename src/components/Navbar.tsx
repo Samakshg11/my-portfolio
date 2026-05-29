@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, type MouseEvent } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import HoverLinks from "./HoverLinks";
 import { gsap } from "gsap";
@@ -30,62 +30,53 @@ const Navbar = () => {
     smoother.scrollTop(0);
     smoother.paused(true);
 
-    const links = document.querySelectorAll(".header ul a");
     const handleResize = () => smoother.refresh();
-
-    const linkHandlers: Array<{
-      element: HTMLAnchorElement;
-      handleClick: (e: Event) => void;
-    }> = [];
-
-    links.forEach((elem) => {
-      const element = elem as HTMLAnchorElement;
-      const handleClick = (e: Event) => {
-        if (window.innerWidth > 1024) {
-          e.preventDefault();
-          const link = e.currentTarget as HTMLAnchorElement;
-          const section = link.getAttribute("data-href");
-          smoother.scrollTo(section);
-        }
-      };
-      element.addEventListener("click", handleClick);
-      linkHandlers.push({ element, handleClick });
-    });
-
     window.addEventListener("resize", handleResize);
+
     return () => {
       window.removeEventListener("resize", handleResize);
-      linkHandlers.forEach(({ element, handleClick }) => {
-        element.removeEventListener("click", handleClick);
-      });
     };
   }, []);
+
+  const handleSectionNavigation = (section: string) => (
+    e: MouseEvent<HTMLAnchorElement>
+  ) => {
+    if (window.innerWidth <= 1024) return;
+    e.preventDefault();
+    smoother.scrollTo(section);
+  };
+
   return (
     <>
       <div className="header">
-        <a href="/#" className="navbar-title" data-cursor="disable">
+        <a href="/#" className="navbar-title" data-cursor="disable" aria-label="Go to top">
           SG
         </a>
         <a
           href="mailto:samakshgarg2005@gmail.com"
           className="navbar-connect"
           data-cursor="disable"
+          aria-label="Email Samaksh Garg"
         >
           samakshgarg2005@gmail.com
         </a>
         <ul>
           <li>
-            <a data-href="#about" href="#about">
+            <a data-href="#about" href="#about" onClick={handleSectionNavigation("#about")}>
               <HoverLinks text="ABOUT" />
             </a>
           </li>
           <li>
-            <a data-href="#work" href="#work">
+            <a data-href="#work" href="#work" onClick={handleSectionNavigation("#work")}>
               <HoverLinks text="WORK" />
             </a>
           </li>
           <li>
-            <a data-href="#contact" href="#contact">
+            <a
+              data-href="#contact"
+              href="#contact"
+              onClick={handleSectionNavigation("#contact")}
+            >
               <HoverLinks text="CONTACT" />
             </a>
           </li>
