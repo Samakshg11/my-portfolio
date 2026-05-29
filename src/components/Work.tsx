@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { projects } from "../data/projectsData";
 import "./styles/Work.css";
 import WorkImage from "./WorkImage";
@@ -62,6 +62,14 @@ const Work = () => {
     });
   }, []);
 
+  useEffect(() => {
+    return () => {
+      if (scrollRafRef.current !== null) {
+        cancelAnimationFrame(scrollRafRef.current);
+      }
+    };
+  }, []);
+
   return (
     <div className="work-section" id="work">
       <div className="work-container section-container">
@@ -96,11 +104,11 @@ const Work = () => {
           >
             <div className="carousel-track">
               {projects.map((project, index) => (
-                <div className="carousel-slide" key={index}>
+                <div className="carousel-slide" key={project.title}>
                   <div className="carousel-content">
                     <div className="carousel-info">
                       <div className="carousel-number">
-                        <h3>0{index + 1}</h3>
+                        <h3>{String(index + 1).padStart(2, "0")}</h3>
                       </div>
                       <div className="carousel-details">
                         <h4>{project.title}</h4>
@@ -134,7 +142,7 @@ const Work = () => {
           <div className="carousel-dots">
             {projects.map((_, index) => (
               <button
-                key={index}
+                key={project.title}
                 className={`carousel-dot ${index === currentIndex ? "carousel-dot-active" : ""
                   }`}
                 onClick={() => goToSlide(index)}
