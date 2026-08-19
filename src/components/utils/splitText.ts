@@ -7,6 +7,7 @@ interface ParaElement extends HTMLElement {
   split?: SplitResult;
 }
 
+// TODO: evaluate stagger timings for mobile to improve performance
 gsap.registerPlugin(ScrollTrigger);
 let isRefreshHandlerBound = false;
 
