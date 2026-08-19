@@ -48,7 +48,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="header">
+      <nav className="header" aria-label="Main navigation">
         <a href="/#" className="navbar-title" data-cursor="disable" aria-label="Go to top">
           SG
         </a>
@@ -81,7 +81,7 @@ const Navbar = () => {
             </a>
           </li>
         </ul>
-      </div>
+      </nav>
 
       <div className="landing-circle1"></div>
       <div className="landing-circle2"></div>
