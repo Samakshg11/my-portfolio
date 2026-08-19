@@ -1,3 +1,5 @@
+// Simple local test script for debugging playback/listener behavior
+// Not intended for production use
 let endListener = false;
 
 clickElement.addEventListener("click", () => {
