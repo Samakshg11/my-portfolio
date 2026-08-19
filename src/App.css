@@ -1,3 +1,7 @@
+.root {
+  --primary-color: #0ea5a4;
+}
+
 .section-container {
   width: 1300px;
 }
