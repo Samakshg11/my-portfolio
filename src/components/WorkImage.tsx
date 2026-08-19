@@ -59,7 +59,7 @@ const WorkImage = (props: Props) => {
           >
             <img
               src={props.image}
-              alt={props.alt}
+              alt={props.alt ?? "Project screenshot"}
               loading="lazy"
               decoding="async"
             />
@@ -71,7 +71,7 @@ const WorkImage = (props: Props) => {
           <>
             <img
               src={props.image}
-              alt={props.alt}
+              alt={props.alt ?? "Project screenshot"}
               loading="lazy"
               decoding="async"
             />
