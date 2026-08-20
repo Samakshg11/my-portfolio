@@ -54,7 +54,7 @@ const Landing = ({ children }: PropsWithChildren) => {
             download={CV_DOWNLOAD_NAME}
             className="landing-cv-btn"
             data-cursor="enable"
-            aria-label="Download Samaksh Garg CV"
+            aria-label="Download Samaksh Garg"
             onClick={handleDownloadCV}
           >
             Download CV
